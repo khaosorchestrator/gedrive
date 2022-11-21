@@ -12,22 +12,15 @@ repositories {
 	mavenCentral()
 }
 
-ext {
-	set('springCloudGcpVersion', "3.4.0")
-	set('springCloudVersion', "2021.0.5")
-}
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'com.google.cloud:spring-cloud-gcp-starter-pubsub'
+	implementation 'org.webjars:bootstrap:5.2.2'
+	implementation 'org.webjars:jquery:3.6.1'
+	implementation 'com.google.apis:google-api-services-drive:v3-rev20221023-2.0.0'
+	implementation 'com.google.api-client:google-api-client:2.0.1'
+	compileOnly 'org.projectlombok:lombok:1.18.24'
+	annotationProcessor 'org.projectlombok:lombok:1.18.24'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-dependencyManagement {
-	imports {
-		mavenBom "com.google.cloud:spring-cloud-gcp-dependencies:${springCloudGcpVersion}"
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-	}
 }
 
 tasks.named('test') {
