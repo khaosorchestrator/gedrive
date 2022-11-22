@@ -1,7 +1,7 @@
-package com.ldsa.googledriverestapi.controllers;
+package com.ldsa.gedrive.controllers;
 
-import com.ldsa.googledriverestapi.dtos.GoogleDriveFolderDTO;
-import com.ldsa.googledriverestapi.services.GoogleDriveFolderService;
+import com.ldsa.gedrive.dtos.GoogleDriveFolderDTO;
+import com.ldsa.gedrive.services.GoogleDriveFolderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

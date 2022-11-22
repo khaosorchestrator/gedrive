@@ -1,10 +1,10 @@
-package com.ldsa.googledriverestapi;
+package com.ldsa.gedrive;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GoogledriverestapiApplicationTests {
+class GedriveApplicationTests {
 
 	@Test
 	void contextLoads() {

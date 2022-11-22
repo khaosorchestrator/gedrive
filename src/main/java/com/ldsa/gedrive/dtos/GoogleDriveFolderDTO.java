@@ -1,4 +1,4 @@
-package com.ldsa.googledriverestapi.dtos;
+package com.ldsa.gedrive.dtos;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

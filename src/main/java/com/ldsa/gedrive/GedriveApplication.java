@@ -1,13 +1,13 @@
-package com.ldsa.googledriverestapi;
+package com.ldsa.gedrive;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GoogledriverestapiApplication {
+public class GedriveApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GoogledriverestapiApplication.class, args);
+		SpringApplication.run(GedriveApplication.class, args);
 	}
 
 }

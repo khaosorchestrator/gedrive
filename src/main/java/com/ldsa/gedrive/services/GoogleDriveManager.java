@@ -1,11 +1,11 @@
-package com.ldsa.googledriverestapi.services;
+package com.ldsa.gedrive.services;
 
 import com.google.api.client.http.InputStreamContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.google.api.services.drive.model.Permission;
-import com.ldsa.googledriverestapi.config.GoogleDriveConfig;
+import com.ldsa.gedrive.config.GoogleDriveConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
