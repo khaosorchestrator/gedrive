@@ -44,9 +44,9 @@ public class GoogleDriveFileService {
         googleDriveManager.deleteFileOrFolderById(fileId);
     }
 
-    public void upload(MultipartFile file, String path, boolean isPublic) {
-        String permissionType = "";
-        String role = "";
+    public String upload(MultipartFile file, String path, boolean isPublic) {
+        String permissionType;
+        String role;
 
         if (isPublic) {
             permissionType = "anyone";
@@ -56,7 +56,7 @@ public class GoogleDriveFileService {
             role = "private";
         }
 
-        googleDriveManager.uploadFile(file, path, permissionType, role);
+        return googleDriveManager.uploadFile(file, path, permissionType, role);
     }
 
     public void download(String fileId, OutputStream outputStream) {

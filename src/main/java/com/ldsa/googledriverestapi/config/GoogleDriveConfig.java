@@ -34,8 +34,7 @@ public class GoogleDriveConfig {
     public Drive getDrive() {
         try {
             final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-
-            String APPLICATION_NAME = "google-driver-rest-api";
+            String APPLICATION_NAME = "GedriveOAuth";
             return new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                     .setApplicationName(APPLICATION_NAME)
                     .build();
@@ -59,7 +58,7 @@ public class GoogleDriveConfig {
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType("offline")
                 .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8080).build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(2424).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
