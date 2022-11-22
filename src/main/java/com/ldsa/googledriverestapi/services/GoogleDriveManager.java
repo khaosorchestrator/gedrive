@@ -18,7 +18,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class GoogleDriveFileServiceManager {
+public class GoogleDriveManager {
 
     private final GoogleDriveConfig googleDriveConfig;
 
