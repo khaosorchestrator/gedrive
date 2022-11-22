@@ -37,4 +37,8 @@ public class GoogleDriveFileService {
 
         return googleDriveFileDTOS;
     }
+
+    public void deleteById(String fileId) {
+        googleDriveFileServiceManager.deleteFileOrFolderById(fileId);
+    }
 }
