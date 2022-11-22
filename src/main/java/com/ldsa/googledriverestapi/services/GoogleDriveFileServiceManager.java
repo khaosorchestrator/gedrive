@@ -168,4 +168,12 @@ public class GoogleDriveFileServiceManager {
 
         return folderId;
     }
+
+    public void deleteFileOrFolderById(String id) {
+        try {
+            googleDriveConfig.getDrive().files().delete(id).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
