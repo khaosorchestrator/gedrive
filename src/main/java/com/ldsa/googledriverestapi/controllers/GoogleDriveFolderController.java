@@ -14,22 +14,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GoogleDriveFolderController {
 
-    private final GoogleDriveFolderService service;
+    private final GoogleDriveFolderService googleDriveFolderService;
 
     @GetMapping
     public ResponseEntity<List<GoogleDriveFolderDTO>> findAll() {
-        return ResponseEntity.ok(service.findAll());
+        return ResponseEntity.ok(googleDriveFolderService.findAll());
     }
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestParam("folderName") String folderName) {
-        service.create(folderName);
+        googleDriveFolderService.create(folderName);
     }
 
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
-        service.delete(id);
+        googleDriveFolderService.delete(id);
     }
 }

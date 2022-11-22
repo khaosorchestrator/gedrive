@@ -18,11 +18,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GoogleDriveFileController {
 
-    private final GoogleDriveFileService service;
+    private final GoogleDriveFileService googleDriveFileService;
 
     @GetMapping
     public ResponseEntity<List<GoogleDriveFileDTO>> findAll() {
-        return ResponseEntity.ok(service.findAll());
+        return ResponseEntity.ok(googleDriveFileService.findAll());
     }
 
     @PostMapping(value = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -33,18 +33,18 @@ public class GoogleDriveFileController {
 
         path = "".equals(path) ?"Root" : path;
         System.out.println(path);
-        return service.upload(file, path, Boolean.parseBoolean(shared));
+        return googleDriveFileService.upload(file, path, Boolean.parseBoolean(shared));
     }
 
     @GetMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
-        service.deleteById(id);
+        googleDriveFileService.deleteById(id);
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/download/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void download(@PathVariable String id, HttpServletResponse response) throws IOException {
-        service.download(id, response.getOutputStream());
+        googleDriveFileService.download(id, response.getOutputStream());
     }
 }
