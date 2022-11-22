@@ -4,6 +4,7 @@ import com.google.api.services.drive.model.File;
 import com.ldsa.googledriverestapi.dtos.GoogleDriveFileDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,5 +41,20 @@ public class GoogleDriveFileService {
 
     public void deleteById(String fileId) {
         googleDriveFileServiceManager.deleteFileOrFolderById(fileId);
+    }
+
+    public void upload(MultipartFile file, String path, boolean isPublic) {
+        String permissionType = "";
+        String role = "";
+
+        if (isPublic) {
+            permissionType = "anyone";
+            role = "reader";
+        } else {
+            permissionType = "private";
+            role = "private";
+        }
+
+        googleDriveFileServiceManager.uploadFile(file, path, permissionType, role);
     }
 }
