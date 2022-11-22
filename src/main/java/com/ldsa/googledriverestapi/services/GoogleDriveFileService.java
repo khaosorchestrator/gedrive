@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +14,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GoogleDriveFileService {
 
-    private final GoogleDriveFileServiceManager googleDriveFileServiceManager;
+    private final GoogleDriveManager googleDriveManager;
 
     public List<GoogleDriveFileDTO> findAll() {
 
         List<GoogleDriveFileDTO> googleDriveFileDTOS = new ArrayList<>();
-        List<File> files = googleDriveFileServiceManager.findAll();
+        List<File> files = googleDriveManager.findAll();
 
         if (files == null) return googleDriveFileDTOS;
 
@@ -40,7 +41,7 @@ public class GoogleDriveFileService {
     }
 
     public void deleteById(String fileId) {
-        googleDriveFileServiceManager.deleteFileOrFolderById(fileId);
+        googleDriveManager.deleteFileOrFolderById(fileId);
     }
 
     public void upload(MultipartFile file, String path, boolean isPublic) {
@@ -55,6 +56,10 @@ public class GoogleDriveFileService {
             role = "private";
         }
 
-        googleDriveFileServiceManager.uploadFile(file, path, permissionType, role);
+        googleDriveManager.uploadFile(file, path, permissionType, role);
+    }
+
+    public void download(String fileId, OutputStream outputStream) {
+        googleDriveManager.downloadFile(fileId, outputStream);
     }
 }
