@@ -27,17 +27,38 @@ public class GoogleDriveFileService {
 
         files.forEach(file -> {
             if (file.getSize() != null) {
-                driveFileDto.setId(file.getId());
-                driveFileDto.setName(file.getName());
-                driveFileDto.setThumbnailLink(file.getThumbnailLink());
-                driveFileDto.setSize(String.valueOf(file.getSize()));
-                driveFileDto.setLink("https://drive.google.com/file/d/" + file.getId() + "/view?usp=sharing");
-                driveFileDto.setShared(file.getShared());
-                googleDriveFileDTOS.add(driveFileDto);
+                fillGoogleDriveFileDTOList(googleDriveFileDTOS, file, driveFileDto);
             }
         });
 
         return googleDriveFileDTOS;
+    }
+
+    public List<GoogleDriveFileDTO> findAllInFolder(String folderId) {
+
+        List<GoogleDriveFileDTO> googleDriveFileDTOList = new ArrayList<>();
+        List<File> files = googleDriveManager.findAllInFolderById(folderId);
+
+        if (files == null) return googleDriveFileDTOList;
+
+        files.forEach(file -> {
+            if (file.getSize() != null) {
+                GoogleDriveFileDTO driveFileDto = new GoogleDriveFileDTO();
+                fillGoogleDriveFileDTOList(googleDriveFileDTOList, file, driveFileDto);
+            }
+        });
+
+        return googleDriveFileDTOList;
+    }
+
+    private void fillGoogleDriveFileDTOList(List<GoogleDriveFileDTO> googleDriveFileDTOS, File file, GoogleDriveFileDTO driveFileDto) {
+        driveFileDto.setId(file.getId());
+        driveFileDto.setName(file.getName());
+        driveFileDto.setThumbnailLink(file.getThumbnailLink());
+        driveFileDto.setSize(String.valueOf(file.getSize()));
+        driveFileDto.setLink("https://drive.google.com/file/d/" + file.getId() + "/view?usp=sharing");
+        driveFileDto.setShared(file.getShared());
+        googleDriveFileDTOS.add(driveFileDto);
     }
 
     public void deleteById(String fileId) {

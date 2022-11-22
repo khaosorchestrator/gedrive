@@ -21,6 +21,11 @@ public class GoogleDriveFolderController {
         return ResponseEntity.ok(googleDriveFolderService.findAll());
     }
 
+    @GetMapping("/{folderName}")
+    public String getFolderId(@PathVariable String folderName) {
+        return googleDriveFolderService.getFolderId(folderName);
+    }
+
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestParam("folderName") String folderName) {

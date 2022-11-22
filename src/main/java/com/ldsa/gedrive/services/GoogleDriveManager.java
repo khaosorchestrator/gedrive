@@ -37,17 +37,17 @@ public class GoogleDriveManager {
         }
     }
 
-    public List<File> findAllInFolder(String parentId) {
+    public List<File> findAllInFolderById(String folderId) {
         try {
-            parentId = parentId == null ? "root" : parentId;
-            String query = "'" + parentId + "' in parents";
+            folderId = folderId == null ? "root" : folderId;
+            String query = "'" + folderId + "' in parents";
             FileList result = googleDriveConfig
                     .getDrive()
                     .files()
                     .list()
                     .setQ(query)
                     .setPageSize(10)
-                    .setFields("nextPageToken, files(id, name)")
+                    .setFields("nextPageToken, files(id, name, size, thumbnailLink, shared)")
                     .execute();
             return result.getFiles();
         } catch (IOException e) {

@@ -25,18 +25,21 @@ public class GoogleDriveFileController {
         return ResponseEntity.ok(googleDriveFileService.findAll());
     }
 
+    @GetMapping("/{folderId}")
+    public ResponseEntity<List<GoogleDriveFileDTO>> findAllInFolder(@PathVariable String folderId) {
+        return ResponseEntity.ok(googleDriveFileService.findAllInFolder(folderId));
+    }
+
     @PostMapping(value = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public String upload(
             @RequestParam("file") MultipartFile file,
             @RequestParam("path") String path,
             @RequestParam("shared") String shared) {
-
         path = "".equals(path) ?"Root" : path;
-        System.out.println(path);
         return googleDriveFileService.upload(file, path, Boolean.parseBoolean(shared));
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
         googleDriveFileService.deleteById(id);

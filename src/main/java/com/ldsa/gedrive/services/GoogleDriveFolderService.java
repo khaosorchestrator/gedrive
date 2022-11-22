@@ -15,25 +15,29 @@ public class GoogleDriveFolderService {
     private final GoogleDriveManager googleDriveManager;
 
     public List<GoogleDriveFolderDTO> findAll() {
-        List<File> folders = googleDriveManager.findAllInFolder("root");
-        List<GoogleDriveFolderDTO> folderDTOS = new ArrayList<>();
+        List<File> folders = googleDriveManager.findAllInFolderById("root");
+        List<GoogleDriveFolderDTO> googleDriveFolderDTOS = new ArrayList<>();
 
-        if (folders == null) return folderDTOS;
+        if (folders == null) return googleDriveFolderDTOS;
 
         folders.forEach(file -> {
             GoogleDriveFolderDTO dto = new GoogleDriveFolderDTO();
             dto.setId(file.getId());
             dto.setName(file.getName());
             dto.setLink("https://drive.google.com/drive/u/3/folders/" + file.getId());
-            folderDTOS.add(dto);
+            googleDriveFolderDTOS.add(dto);
         });
 
-        return folderDTOS;
+        return googleDriveFolderDTOS;
     }
 
     public void create(String folderName) {
         String folderId = googleDriveManager.getFolderId(folderName);
         System.out.println(folderId);
+    }
+
+    public String getFolderId(String folderName) {
+        return googleDriveManager.getFolderId(folderName);
     }
 
     public void delete(String id) {
