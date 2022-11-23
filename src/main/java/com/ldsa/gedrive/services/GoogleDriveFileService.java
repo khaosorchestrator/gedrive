@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +81,7 @@ public class GoogleDriveFileService {
         return googleDriveManager.uploadFile(file, path, permissionType, role);
     }
 
-    public void download(String fileId, OutputStream outputStream) {
-        googleDriveManager.downloadFile(fileId, outputStream);
+    public ByteArrayOutputStream download(String fileId, OutputStream outputStream) {
+        return googleDriveManager.download(fileId, outputStream);
     }
 }

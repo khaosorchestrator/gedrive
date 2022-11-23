@@ -3,7 +3,9 @@ package com.ldsa.gedrive.controllers;
 import com.ldsa.gedrive.dtos.GoogleDriveFolderDTO;
 import com.ldsa.gedrive.services.GoogleDriveFolderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,5 +38,14 @@ public class GoogleDriveFolderController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
         googleDriveFolderService.delete(id);
+    }
+
+    @GetMapping(value = "/download/{id}", produces = "application/zip")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<byte[]> download(@PathVariable String id) {
+        HttpHeaders headers = new HttpHeaders();
+        String filename = String.format("%s.zip", id);
+        headers.add("Content-Disposition", "inline; filename="+filename);
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.valueOf("application/zip")).body(googleDriveFolderService.download(id));
     }
 }

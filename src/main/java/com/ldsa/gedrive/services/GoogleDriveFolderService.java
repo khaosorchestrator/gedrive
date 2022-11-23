@@ -1,12 +1,17 @@
 package com.ldsa.gedrive.services;
 
 import com.google.api.services.drive.model.File;
+import com.google.common.io.ByteStreams;
 import com.ldsa.gedrive.dtos.GoogleDriveFolderDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Service
 @RequiredArgsConstructor
@@ -43,4 +48,41 @@ public class GoogleDriveFolderService {
     public void delete(String id) {
         googleDriveManager.deleteFileOrFolderById(id);
     }
+
+    public byte[] download(String folderId) {
+        /*List<File> folders = googleDriveManager.findAllInFolderById(folderId);
+        return zipFiles(folders);
+        List<ByteArrayOutputStream> downloadedFiles = new ArrayList<>();
+
+        folders.forEach(file -> {
+            downloadedFiles.add(googleDriveManager.download(file.getId(), outputStream));
+        });*/
+        return null;
+    }
+
+    private byte[] zipFiles(List<File> files){
+
+        byte[] result = null;
+
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+             ZipOutputStream zipOut = new ZipOutputStream(byteArrayOutputStream))
+        {
+            for (File fileToZip : files) {
+                try (FileInputStream fileInputStream = new FileInputStream("")) {
+                    ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+                    zipOut.putNextEntry(zipEntry);
+                    ByteStreams.copy(fileInputStream, zipOut);
+                }
+            }
+
+            zipOut.close();
+            byteArrayOutputStream.close();
+            result = byteArrayOutputStream.toByteArray();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return result;
+    }
+
 }
