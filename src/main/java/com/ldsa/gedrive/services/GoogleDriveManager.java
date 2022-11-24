@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collections;
@@ -56,22 +55,21 @@ public class GoogleDriveManager {
         }
     }
 
-    public ByteArrayOutputStream download(String fileId, OutputStream outputStream) {
-        if (fileId == null) {
-            return null;
-        }
-
+    public void download(String fileId, OutputStream outputStream) {
         try {
-            googleDriveConfig
-                    .getDrive()
-                    .files()
-                    .get(fileId)
-                    .executeMediaAndDownloadTo(outputStream);
+            googleDriveConfig.getDrive().files().get(fileId).executeMediaAndDownloadTo(outputStream);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
-        return (ByteArrayOutputStream) outputStream;
+    public OutputStream downloadFolderAsZip(String fileId, OutputStream outputStream) {
+        try {
+            googleDriveConfig.getDrive().files().get(fileId).executeMediaAndDownloadTo(outputStream);
+            return outputStream;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Permission setPermission(String type, String role) {

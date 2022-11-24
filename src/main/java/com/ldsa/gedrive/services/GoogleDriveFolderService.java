@@ -4,10 +4,11 @@ import com.google.api.services.drive.model.File;
 import com.google.common.io.ByteStreams;
 import com.ldsa.gedrive.dtos.GoogleDriveFolderDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamSource;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -25,11 +26,11 @@ public class GoogleDriveFolderService {
 
         if (folders == null) return googleDriveFolderDTOS;
 
-        folders.forEach(file -> {
+        folders.forEach(folder -> {
             GoogleDriveFolderDTO dto = new GoogleDriveFolderDTO();
-            dto.setId(file.getId());
-            dto.setName(file.getName());
-            dto.setLink("https://drive.google.com/drive/u/3/folders/" + file.getId());
+            dto.setId(folder.getId());
+            dto.setName(folder.getName());
+            dto.setLink("https://drive.google.com/drive/u/3/folders/" + folder.getId());
             googleDriveFolderDTOS.add(dto);
         });
 
@@ -49,33 +50,31 @@ public class GoogleDriveFolderService {
         googleDriveManager.deleteFileOrFolderById(id);
     }
 
-    public byte[] download(String folderId) {
-        /*List<File> folders = googleDriveManager.findAllInFolderById(folderId);
-        return zipFiles(folders);
-        List<ByteArrayOutputStream> downloadedFiles = new ArrayList<>();
-
-        folders.forEach(file -> {
-            downloadedFiles.add(googleDriveManager.download(file.getId(), outputStream));
-        });*/
-        return null;
+    public byte[] download(String folderId, OutputStream outputStream) {
+        List<File> folders = googleDriveManager.findAllInFolderById(folderId);
+        return zipFiles(folders, outputStream);
     }
 
-    private byte[] zipFiles(List<File> files){
+    private byte[] zipFiles(List<File> files, OutputStream outputStream) {
 
         byte[] result = null;
 
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-             ZipOutputStream zipOut = new ZipOutputStream(byteArrayOutputStream))
-        {
-            for (File fileToZip : files) {
-                try (FileInputStream fileInputStream = new FileInputStream("")) {
-                    ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
-                    zipOut.putNextEntry(zipEntry);
-                    ByteStreams.copy(fileInputStream, zipOut);
+             ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
+            for (File file : files) {
+                OutputStream out = googleDriveManager.downloadFolderAsZip(file.getId(), outputStream);
+                byte[] downloadedBytes = new byte[file.size()];
+                out.write(downloadedBytes);
+                InputStreamSource source =  new ByteArrayResource(downloadedBytes);
+
+                try (InputStream fileInputStream = source.getInputStream()) {
+                    ZipEntry zipEntry = new ZipEntry(file.getName());
+                    zipOutputStream.putNextEntry(zipEntry);
+                    ByteStreams.copy(fileInputStream, zipOutputStream);
                 }
             }
 
-            zipOut.close();
+            zipOutputStream.close();
             byteArrayOutputStream.close();
             result = byteArrayOutputStream.toByteArray();
         } catch (Exception ex) {
