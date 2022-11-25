@@ -47,7 +47,7 @@ public class GoogleDriveFolderController {
     public ResponseEntity<byte[]> download(@PathVariable String id, HttpServletResponse response) throws IOException {
         HttpHeaders headers = new HttpHeaders();
         String filename = String.format("%s.zip", id);
-        headers.add("Content-Disposition", "inline; filename="+filename);
+        headers.add("Content-Disposition", "inline; filename=" + filename);
         return ResponseEntity.ok().headers(headers).contentType(MediaType.valueOf("application/zip")).body(googleDriveFolderService.download(id, response.getOutputStream()));
     }
 }

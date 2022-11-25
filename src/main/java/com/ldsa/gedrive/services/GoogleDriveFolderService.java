@@ -62,6 +62,7 @@ public class GoogleDriveFolderService {
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
              ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
             for (File file : files) {
+
                 OutputStream out = googleDriveManager.downloadFolderAsZip(file.getId(), outputStream);
                 byte[] downloadedBytes = new byte[file.size()];
                 out.write(downloadedBytes);
@@ -76,6 +77,7 @@ public class GoogleDriveFolderService {
 
             zipOutputStream.close();
             byteArrayOutputStream.close();
+            outputStream.close();
             result = byteArrayOutputStream.toByteArray();
         } catch (Exception ex) {
             ex.printStackTrace();

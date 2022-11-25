@@ -66,6 +66,7 @@ public class GoogleDriveManager {
     public OutputStream downloadFolderAsZip(String fileId, OutputStream outputStream) {
         try {
             googleDriveConfig.getDrive().files().get(fileId).executeMediaAndDownloadTo(outputStream);
+            outputStream.close();
             return outputStream;
         } catch (IOException e) {
             throw new RuntimeException(e);
