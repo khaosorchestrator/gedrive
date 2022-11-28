@@ -4,11 +4,10 @@ import com.google.api.services.drive.model.File;
 import com.google.common.io.ByteStreams;
 import com.ldsa.gedrive.dtos.GoogleDriveFolderDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamSource;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -50,25 +49,19 @@ public class GoogleDriveFolderService {
         googleDriveManager.deleteFileOrFolderById(id);
     }
 
-    public byte[] download(String folderId, OutputStream outputStream) {
+    public byte[] download(String folderId) {
         List<File> folders = googleDriveManager.findAllInFolderById(folderId);
-        return zipFiles(folders, outputStream);
+        return zipFiles(folders);
     }
 
-    private byte[] zipFiles(List<File> files, OutputStream outputStream) {
+    private byte[] zipFiles(List<File> files) {
 
         byte[] result = null;
 
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
              ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
             for (File file : files) {
-
-                OutputStream out = googleDriveManager.downloadFolderAsZip(file.getId(), outputStream);
-                byte[] downloadedBytes = new byte[file.size()];
-                out.write(downloadedBytes);
-                InputStreamSource source =  new ByteArrayResource(downloadedBytes);
-
-                try (InputStream fileInputStream = source.getInputStream()) {
+                try (InputStream fileInputStream = googleDriveManager.getFileAsInputStream(file.getId())) {
                     ZipEntry zipEntry = new ZipEntry(file.getName());
                     zipOutputStream.putNextEntry(zipEntry);
                     ByteStreams.copy(fileInputStream, zipOutputStream);
@@ -77,7 +70,6 @@ public class GoogleDriveFolderService {
 
             zipOutputStream.close();
             byteArrayOutputStream.close();
-            outputStream.close();
             result = byteArrayOutputStream.toByteArray();
         } catch (Exception ex) {
             ex.printStackTrace();

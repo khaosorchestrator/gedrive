@@ -6,12 +6,14 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.google.api.services.drive.model.Permission;
 import com.ldsa.gedrive.config.GoogleDriveConfig;
+import com.ldsa.gedrive.utils.PermissionDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.List;
@@ -63,21 +65,22 @@ public class GoogleDriveManager {
         }
     }
 
-    public OutputStream downloadFolderAsZip(String fileId, OutputStream outputStream) {
-        try {
-            googleDriveConfig.getDrive().files().get(fileId).executeMediaAndDownloadTo(outputStream);
-            outputStream.close();
-            return outputStream;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    private Permission setPermission(PermissionDetails permissionDetails) {
+        Permission permission = new Permission();
+
+        if (permissionDetails.getEmailAddress().isEmpty()) {
+            return permission
+                    .setType(permissionDetails.getType())
+                    .setRole(permissionDetails.getRole());
         }
+
+        return permission
+                .setType(permissionDetails.getType())
+                .setRole(permissionDetails.getRole())
+                .setEmailAddress(permissionDetails.getEmailAddress());
     }
 
-    private Permission setPermission(String type, String role) {
-        return new Permission().setType(type).setRole(role);
-    }
-
-    public String uploadFile(MultipartFile multipartFile, String folderName, String permissionType, String role) {
+    public String uploadFile(MultipartFile multipartFile, String folderName, PermissionDetails permissionDetails) {
         if (multipartFile == null) return null;
 
         File file = new File();
@@ -92,11 +95,11 @@ public class GoogleDriveManager {
                     .setFields("id")
                     .execute();
 
-            if (!"private".equals(permissionType) && !"private".equals(role)) {
+            if (!"private".equals(permissionDetails.getType()) && !"private".equals(permissionDetails.getRole())) {
                 googleDriveConfig
                         .getDrive()
                         .permissions()
-                        .create(uploadedFile.getId(), setPermission(permissionType, role));
+                        .create(uploadedFile.getId(), setPermission(permissionDetails));
             }
 
             return uploadedFile.getId();
@@ -174,6 +177,17 @@ public class GoogleDriveManager {
     public void deleteFileOrFolderById(String id) {
         try {
             googleDriveConfig.getDrive().files().delete(id).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public InputStream getFileAsInputStream(String fileID) {
+        try {
+            return googleDriveConfig.getDrive()
+                    .files()
+                    .get(fileID)
+                    .executeMediaAsInputStream();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -9,8 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -44,10 +42,10 @@ public class GoogleDriveFolderController {
 
     @GetMapping(value = "/download/{id}", produces = "application/zip")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<byte[]> download(@PathVariable String id, HttpServletResponse response) throws IOException {
+    public ResponseEntity<byte[]> download(@PathVariable String id) {
         HttpHeaders headers = new HttpHeaders();
         String filename = String.format("%s.zip", id);
         headers.add("Content-Disposition", "inline; filename=" + filename);
-        return ResponseEntity.ok().headers(headers).contentType(MediaType.valueOf("application/zip")).body(googleDriveFolderService.download(id, response.getOutputStream()));
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.valueOf("application/zip")).body(googleDriveFolderService.download(id));
     }
 }
