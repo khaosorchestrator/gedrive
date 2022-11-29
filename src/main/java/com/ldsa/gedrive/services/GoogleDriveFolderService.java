@@ -26,11 +26,13 @@ public class GoogleDriveFolderService {
         if (folders == null) return googleDriveFolderDTOS;
 
         folders.forEach(folder -> {
-            GoogleDriveFolderDTO dto = new GoogleDriveFolderDTO();
-            dto.setId(folder.getId());
-            dto.setName(folder.getName());
-            dto.setLink("https://drive.google.com/drive/u/3/folders/" + folder.getId());
-            googleDriveFolderDTOS.add(dto);
+            if (folder.getSize() == null) {
+                GoogleDriveFolderDTO dto = new GoogleDriveFolderDTO();
+                dto.setId(folder.getId());
+                dto.setName(folder.getName());
+                dto.setLink("https://drive.google.com/drive/u/0/folders/" + folder.getId());
+                googleDriveFolderDTOS.add(dto);
+            }
         });
 
         return googleDriveFolderDTOS;
@@ -56,7 +58,7 @@ public class GoogleDriveFolderService {
 
     private byte[] zipFiles(List<File> files) {
 
-        byte[] result = null;
+        byte[] result;
 
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
              ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
@@ -71,11 +73,10 @@ public class GoogleDriveFolderService {
             zipOutputStream.close();
             byteArrayOutputStream.close();
             result = byteArrayOutputStream.toByteArray();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         return result;
     }
-
 }
