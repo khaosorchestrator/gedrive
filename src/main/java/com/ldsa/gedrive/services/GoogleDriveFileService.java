@@ -24,10 +24,9 @@ public class GoogleDriveFileService {
 
         if (files == null) return googleDriveFileDTOS;
 
-        GoogleDriveFileDTO driveFileDto = new GoogleDriveFileDTO();
-
         files.forEach(file -> {
             if (file.getSize() != null) {
+                GoogleDriveFileDTO driveFileDto = new GoogleDriveFileDTO();
                 fillGoogleDriveFileDTOList(googleDriveFileDTOS, file, driveFileDto);
             }
         });
@@ -90,7 +89,6 @@ public class GoogleDriveFileService {
 
     // Test
     public void moveToFolder(String fileId, String folderName) {
-        googleDriveManager.copy(fileId, folderName);
-        googleDriveManager.deleteFileOrFolderById(fileId);
+        googleDriveManager.move(fileId, folderName);
     }
 }
