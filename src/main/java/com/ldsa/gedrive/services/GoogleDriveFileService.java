@@ -2,6 +2,7 @@ package com.ldsa.gedrive.services;
 
 import com.google.api.services.drive.model.File;
 import com.ldsa.gedrive.dtos.GoogleDriveFileDTO;
+import com.ldsa.gedrive.utils.PermissionDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,21 +67,30 @@ public class GoogleDriveFileService {
     }
 
     public String upload(MultipartFile file, String path, boolean isPublic) {
-        String permissionType;
-        String role;
+        PermissionDetails permissionDetails = new PermissionDetails();
 
         if (isPublic) {
-            permissionType = "anyone";
-            role = "reader";
+            permissionDetails.setType("anyone");
+            permissionDetails.setRole("reader");
         } else {
-            permissionType = "private";
-            role = "private";
+            permissionDetails.setType("private");
+            permissionDetails.setRole("private");
         }
 
-        return googleDriveManager.uploadFile(file, path, permissionType, role);
+        return googleDriveManager.uploadFile(file, path, permissionDetails);
     }
 
     public void download(String fileId, OutputStream outputStream) {
         googleDriveManager.download(fileId, outputStream);
+    }
+
+    public void copyToFolder(String fileId, String folderName) {
+        googleDriveManager.copy(fileId, folderName);
+    }
+
+    // Test
+    public void moveToFolder(String fileId, String folderName) {
+        googleDriveManager.copy(fileId, folderName);
+        googleDriveManager.deleteFileOrFolderById(fileId);
     }
 }

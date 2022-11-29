@@ -46,8 +46,14 @@ public class GoogleDriveFileController {
     }
 
     @GetMapping("/download/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public void download(@PathVariable String id, HttpServletResponse response) throws IOException {
         googleDriveFileService.download(id, response.getOutputStream());
+    }
+
+    @GetMapping("/copy/{fileId}/{folderName}")
+    @ResponseStatus(HttpStatus.OK)
+    public void copy(@PathVariable String fileId, @PathVariable String folderName) {
+        googleDriveFileService.copyToFolder(fileId, folderName);
     }
 }

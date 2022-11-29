@@ -1,7 +1,6 @@
 package com.ldsa.gedrive.services;
 
 import com.google.api.client.http.InputStreamContent;
-import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.google.api.services.drive.model.Permission;
@@ -68,16 +67,13 @@ public class GoogleDriveManager {
     private Permission setPermission(PermissionDetails permissionDetails) {
         Permission permission = new Permission();
 
-        if (permissionDetails.getEmailAddress().isEmpty()) {
-            return permission
-                    .setType(permissionDetails.getType())
-                    .setRole(permissionDetails.getRole());
+        if (!permissionDetails.getEmailAddress().isEmpty()) {
+            permission.setEmailAddress(permissionDetails.getEmailAddress());
         }
 
         return permission
                 .setType(permissionDetails.getType())
-                .setRole(permissionDetails.getRole())
-                .setEmailAddress(permissionDetails.getEmailAddress());
+                .setRole(permissionDetails.getRole());
     }
 
     public String uploadFile(MultipartFile multipartFile, String folderName, PermissionDetails permissionDetails) {
@@ -112,14 +108,14 @@ public class GoogleDriveManager {
         String parentId = null;
 
         for (String name : folderName.split("/")) {
-            parentId = findOrCreateFolder(parentId, name, googleDriveConfig.getDrive());
+            parentId = findOrCreateFolder(parentId, name);
         }
 
         return parentId;
     }
 
-    private String findOrCreateFolder(String parentId, String folderName, Drive drive) {
-        String folderId = findFolderById(parentId, folderName, drive);
+    private String findOrCreateFolder(String parentId, String folderName) {
+        String folderId = findFolderById(parentId, folderName);
 
         if (folderId != null) {
             return folderId;
@@ -134,13 +130,14 @@ public class GoogleDriveManager {
         }
 
         try {
-            return drive.files().create(folder).setFields("id").execute().getId();
+            return googleDriveConfig.getDrive()
+                    .files().create(folder).setFields("id").execute().getId();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private String findFolderById(String parentId, String folderName, Drive drive) {
+    private String findFolderById(String parentId, String folderName) {
         String folderId = null;
         String pageToken = null;
 
@@ -151,7 +148,7 @@ public class GoogleDriveManager {
                     query + " and '" + parentId + "' in parents";
 
             try {
-                FileList result = drive
+                FileList result = googleDriveConfig.getDrive()
                         .files()
                         .list()
                         .setQ(query)
@@ -188,6 +185,28 @@ public class GoogleDriveManager {
                     .files()
                     .get(fileID)
                     .executeMediaAsInputStream();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void copy(String fileId, String folderName) {
+        String folderId = getFolderId(folderName);
+
+        if (folderId == null) {
+            throw new RuntimeException("Folder " + folderName + " not found.");
+        }
+
+        try {
+            File folder = googleDriveConfig.getDrive()
+                    .files()
+                    .get(folderId)
+                    .execute();
+
+            googleDriveConfig.getDrive()
+                    .files()
+                    .copy(fileId, folder)
+                    .execute();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
