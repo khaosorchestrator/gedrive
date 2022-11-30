@@ -2,6 +2,7 @@ package com.ldsa.gedrive.controllers;
 
 import com.ldsa.gedrive.dtos.GoogleDriveFileDTO;
 import com.ldsa.gedrive.services.GoogleDriveFileService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,8 +15,9 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/files")
+@RequestMapping("/api/v1/files")
 @RequiredArgsConstructor
+@Tag(name = "Files", description = "Files API")
 public class GoogleDriveFileController {
 
     private final GoogleDriveFileService googleDriveFileService;

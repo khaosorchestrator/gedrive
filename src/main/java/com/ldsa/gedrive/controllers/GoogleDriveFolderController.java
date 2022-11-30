@@ -2,6 +2,7 @@ package com.ldsa.gedrive.controllers;
 
 import com.ldsa.gedrive.dtos.GoogleDriveFolderDTO;
 import com.ldsa.gedrive.services.GoogleDriveFolderService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,8 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/folders")
+@RequestMapping("/api/v1/folders")
 @RequiredArgsConstructor
+@Tag(name = "Folder", description = "Folders API")
 public class GoogleDriveFolderController {
 
     private final GoogleDriveFolderService googleDriveFolderService;
