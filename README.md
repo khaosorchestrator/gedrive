@@ -22,7 +22,7 @@ Click Here `->` [Access Credentials Menu](https://console.cloud.google.com/apis/
 6. Click **Create**. The OAuth client created screen appears, showing your new Client ID and Client secret.
 7. Click **OK**. The newly created credential appears under **OAuth 2.0 Client IDs**.
 8. Save the downloaded JSON file as credentials.json, and move the file to **resources** folder in your project.
-9. **Run the app using gradle.**
+9. **Run the app using your IDE.**
 
 **The origins and redirect path port, must not be the same as your local server port!!!**
 
