@@ -1,5 +1,5 @@
 # Gedrive
-## Spring Boot, Google Cloud, Spring Web, OAUTH, Rest API
+## Spring Boot, Google Cloud, Spring Web, OAuth 2.0, Rest API
 ## Steps to Setup
 
 **1. Clone this repository**
