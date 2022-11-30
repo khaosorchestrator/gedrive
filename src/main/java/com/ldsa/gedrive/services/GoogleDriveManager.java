@@ -29,7 +29,6 @@ public class GoogleDriveManager {
                     .getDrive()
                     .files()
                     .list()
-                    .setPageSize(20)
                     .setFields("nextPageToken, files(id, name, size, thumbnailLink, shared)")
                     .execute();
             return result.getFiles();
@@ -207,6 +206,21 @@ public class GoogleDriveManager {
                     .files()
                     .copy(fileId, folder)
                     .execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void move(String fileId, String folderName) {
+        String folderId = getFolderId(folderName);
+
+        if (folderId == null) {
+            throw new RuntimeException("Folder " + folderName + " not found.");
+        }
+
+        try {
+            File folder = googleDriveConfig.getDrive().files().get(folderId).execute();
+            googleDriveConfig.getDrive().files().update(fileId, folder);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
