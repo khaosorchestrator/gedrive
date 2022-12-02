@@ -215,8 +215,24 @@ public class GoogleDriveManager {
         }
 
         try {
-            File folder = googleDriveConfig.getDrive().files().get(folderId).execute();
-            googleDriveConfig.getDrive().files().update(fileId, folder);
+            File file = googleDriveConfig.getDrive()
+                    .files()
+                    .get(fileId)
+                    .setFields("parents")
+                    .execute();
+
+            StringBuilder previousParents = new StringBuilder();
+            file.getParents().forEach(parent -> {
+                previousParents.append(parent);
+                previousParents.append(',');
+            });
+
+            googleDriveConfig.getDrive().files().update(fileId, null)
+                    .setAddParents(folderId)
+                    .setRemoveParents(previousParents.toString())
+                    .setFields("id, parents")
+                    .execute();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

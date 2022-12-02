@@ -58,4 +58,10 @@ public class GoogleDriveFileController {
     public void copy(@PathVariable String fileId, @PathVariable String folderName) {
         googleDriveFileService.copyToFolder(fileId, folderName);
     }
+
+    @GetMapping("/{fileId}/move/{folderName}")
+    @ResponseStatus(HttpStatus.OK)
+    public void move(@PathVariable String fileId, @PathVariable String folderName) {
+        googleDriveFileService.moveToFolder(fileId, folderName);
+    }
 }

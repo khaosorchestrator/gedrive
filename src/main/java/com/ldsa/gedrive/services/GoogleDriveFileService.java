@@ -87,7 +87,6 @@ public class GoogleDriveFileService {
         googleDriveManager.copy(fileId, folderName);
     }
 
-    // Test
     public void moveToFolder(String fileId, String folderName) {
         googleDriveManager.move(fileId, folderName);
     }
