@@ -197,14 +197,9 @@ public class GoogleDriveManager {
         }
 
         try {
-            File folder = googleDriveConfig.getDrive()
-                    .files()
-                    .get(folderId)
-                    .execute();
-
             googleDriveConfig.getDrive()
                     .files()
-                    .copy(fileId, folder)
+                    .copy(fileId, new File().setParents(List.of(folderId)))
                     .execute();
         } catch (IOException e) {
             throw new RuntimeException(e);

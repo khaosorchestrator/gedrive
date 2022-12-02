@@ -53,7 +53,7 @@ public class GoogleDriveFileController {
         googleDriveFileService.download(id, response.getOutputStream());
     }
 
-    @GetMapping("/copy/{fileId}/{folderName}")
+    @GetMapping("/{fileId}/copy/{folderName}")
     @ResponseStatus(HttpStatus.OK)
     public void copy(@PathVariable String fileId, @PathVariable String folderName) {
         googleDriveFileService.copyToFolder(fileId, folderName);
