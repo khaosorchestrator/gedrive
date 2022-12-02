@@ -3,6 +3,7 @@ package com.ldsa.gedrive.services;
 import com.google.api.client.http.InputStreamContent;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.google.api.services.drive.model.GeneratedIds;
 import com.google.api.services.drive.model.Permission;
 import com.ldsa.gedrive.config.GoogleDriveConfig;
 import com.ldsa.gedrive.utils.PermissionDetails;
@@ -197,15 +198,22 @@ public class GoogleDriveManager {
         }
 
         try {
-            File folder = googleDriveConfig.getDrive()
-                    .files()
-                    .get(folderId)
-                    .execute();
+            GeneratedIds ids = googleDriveConfig.getDrive().files().generateIds().execute();
 
-            googleDriveConfig.getDrive()
+            System.out.println(ids.containsValue("MyCV") ? "Yes" : "NO");
+            System.out.println(ids.getIds());
+            File file = googleDriveConfig.getDrive()
                     .files()
-                    .copy(fileId, folder)
-                    .execute();
+                    .get(fileId)
+                    .execute().setParents(List.of(folderId));
+            System.out.println("FolderID: " + folderId);
+            System.out.println("File: " + file.getName());
+            System.out.println("Parents: " + file.getParents());
+            /*googleDriveConfig.getDrive()
+                    .files()
+                    .create(file).setFields("id, parents")
+                    .execute();*/
+            System.out.println("All is good");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
