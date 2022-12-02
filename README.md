@@ -26,7 +26,8 @@ Click Here `->` [Access Credentials Menu](https://console.cloud.google.com/apis/
 
 **The origins and redirect path port, must not be the same as your local server port!!!**
 
-The app will start running at <http://localhost:8080>
+The app will start running at <http://localhost:8080><br>
+The Swagger UI is running at: <http://localhost:8080/swagger-ui/index.html>
 
 ### Explore REST APIs
 
