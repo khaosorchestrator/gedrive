@@ -66,7 +66,7 @@ public class GoogleDriveFileService {
     }
 
     public String upload(MultipartFile file, String path, boolean isPublic) {
-        PermissionDetails permissionDetails = new PermissionDetails();
+        PermissionDetails permissionDetails = PermissionDetails.builder().build();
 
         if (isPublic) {
             permissionDetails.setType("anyone");
@@ -89,5 +89,16 @@ public class GoogleDriveFileService {
 
     public void moveToFolder(String fileId, String folderName) {
         googleDriveManager.move(fileId, folderName);
+    }
+
+    public void shareFile(String fileId, String gmail) {
+        PermissionDetails permissionDetails = PermissionDetails
+                .builder()
+                .emailAddress(gmail)
+                .type("user")
+                .role("reader")
+                .build();
+
+        googleDriveManager.createPermissionForEmail(fileId, permissionDetails);
     }
 }
