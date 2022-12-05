@@ -43,13 +43,13 @@ The Swagger UI is running at: <http://localhost:8080/swagger-ui/index.html>
 | POST   | /api/v1/files/upload                   | Upload file to your drive                      |                           |
 
 #### Folders API
-| Method | Url                               | Description                                      | Sample Valid Request Body  |
-|--------|-----------------------------------|--------------------------------------------------|----------------------------|
-| GET    | /api/v1/folders                   | Get all folders in your google drive root folder | [JSON](#findAllFolders)    |
-| GET    | /api/v1/folders/{folderName}      | Get folder ID by folder name                     |                            |
-| GET    | /api/v1/folders/download          | Download folder from your drive as zip file      |                            |
-| POST   | /api/v1/folders                   | Create folder in your drive root folder          |                            |
-| DELETE | /api/v1/folders/delete/{folderId} | Delete folder from your drive                    |                            |
+| Method | Url                                 | Description                                      | Sample Valid Request Body  |
+|--------|-------------------------------------|--------------------------------------------------|----------------------------|
+| GET    | /api/v1/folders                     | Get all folders in your google drive root folder | [JSON](#findAllFolders)    |
+| GET    | /api/v1/folders/{folderName}        | Get folder ID by folder name                     |                            |
+| GET    | /api/v1/folders/download/{folderId} | Download folder from your drive as zip file      |                            |
+| POST   | /api/v1/folders                     | Create folder in your drive root folder          |                            |
+| DELETE | /api/v1/folders/delete/{folderId}   | Delete folder from your drive                    |                            |
 
 
 ##### <a id="findAll">List All Files `->` /api/files</a>
