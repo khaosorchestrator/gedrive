@@ -75,6 +75,19 @@ public class GoogleDriveManager {
                 .setRole(permissionDetails.getRole());
     }
 
+    public Permission createPermissionForEmail(String id, PermissionDetails permissionDetails) {
+        Permission permission = setPermission(permissionDetails);
+
+        try {
+            return googleDriveConfig.getDrive()
+                    .permissions()
+                    .create(id, permission)
+                    .execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public String uploadFile(MultipartFile multipartFile, String folderName, PermissionDetails permissionDetails) {
         if (multipartFile == null) return null;
 
