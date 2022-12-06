@@ -65,7 +65,7 @@ public class GoogleDriveFileController {
         googleDriveFileService.moveToFolder(fileId, folderName);
     }
 
-    @GetMapping("/{fileId}/permission/{gmail}")
+    @PostMapping("/{fileId}/permission/{gmail}")
     @ResponseStatus(HttpStatus.OK)
     public void permission(@PathVariable String fileId, @PathVariable String gmail) {
         googleDriveFileService.shareFile(fileId, gmail);
