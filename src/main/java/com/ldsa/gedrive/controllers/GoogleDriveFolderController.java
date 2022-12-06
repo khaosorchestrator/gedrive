@@ -50,4 +50,10 @@ public class GoogleDriveFolderController {
         headers.add("Content-Disposition", "inline; filename=" + filename);
         return ResponseEntity.ok().headers(headers).contentType(MediaType.valueOf("application/zip")).body(googleDriveFolderService.download(id));
     }
+
+    @PostMapping("/{folderId}/permission/{gmail}")
+    @ResponseStatus(HttpStatus.OK)
+    public void permission(@PathVariable String folderId, @PathVariable String gmail) {
+        googleDriveFolderService.shareFolder(folderId, gmail);
+    }
 }
