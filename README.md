@@ -32,15 +32,16 @@ The Swagger UI is running at: <http://localhost:8080/swagger-ui/index.html>
 ### Explore REST APIs
 
 #### Files API
-| Method | Url                                    | Description                                    | Sample Valid Request Body |
-|--------|----------------------------------------|------------------------------------------------|---------------------------|
-| GET    | /api/v1/files                          | Get all files in your google drive root folder | [JSON](#findAll)          |
-| GET    | /api/v1/files/{folderId}               | Get all files in a folder                      | [JSON](#findAllInFolder)  |
-| GET    | /api/v1/files/download/{fileId}        | Download file from your drive                  |                           |
-| GET    | /api/v1/files/{fileId}/copy/folderName | Copy file to a specific folder                 |                           |
-| GET    | /api/v1/files/{fileId}/move/folderName | Move file to a specific folder                 |                           |
-| DELETE | /api/v1/files/delete/{fileId}          | Delete file from your drive                    |                           |
-| POST   | /api/v1/files/upload                   | Upload file to your drive                      |                           |
+| Method | Url                                       | Description                                    | Sample Valid Request Body |
+|--------|-------------------------------------------|------------------------------------------------|---------------------------|
+| GET    | /api/v1/files                             | Get all files in your google drive root folder | [JSON](#findAll)          |
+| GET    | /api/v1/files/{folderId}                  | Get all files in a folder                      | [JSON](#findAllInFolder)  |
+| GET    | /api/v1/files/download/{fileId}           | Download file from your drive                  |                           |
+| GET    | /api/v1/files/{fileId}/copy/folderName    | Copy file to a specific folder                 |                           |
+| GET    | /api/v1/files/{fileId}/move/folderName    | Move file to a specific folder                 |                           |
+| DELETE | /api/v1/files/delete/{fileId}             | Delete file from your drive                    |                           |
+| POST   | /api/v1/files/upload                      | Upload file to your drive                      |                           |
+| POST   | /api/v1/files/{fileId}/permission/{gmail} | Give gmail user permission to file             |                           |
 
 #### Folders API
 | Method | Url                                 | Description                                      | Sample Valid Request Body  |
