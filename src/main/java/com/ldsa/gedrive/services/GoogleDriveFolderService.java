@@ -21,7 +21,7 @@ public class GoogleDriveFolderService {
     private final GoogleDriveManager googleDriveManager;
 
     public List<GoogleDriveFolderDTO> findAll() {
-        List<File> folders = googleDriveManager.findAllInFolderById("root");
+        List<File> folders = googleDriveManager.findAllFilesInFolderById("root");
         List<GoogleDriveFolderDTO> googleDriveFolderDTOS = new ArrayList<>();
 
         if (folders == null) return googleDriveFolderDTOS;
@@ -53,8 +53,8 @@ public class GoogleDriveFolderService {
     }
 
     public byte[] download(String folderId) {
-        List<File> folders = googleDriveManager.findAllInFolderById(folderId);
-        return zipFiles(folders);
+        List<File> files = googleDriveManager.findAllFilesInFolderById(folderId);
+        return zipFiles(files);
     }
 
     private byte[] zipFiles(List<File> files) {

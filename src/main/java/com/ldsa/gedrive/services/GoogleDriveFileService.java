@@ -37,7 +37,7 @@ public class GoogleDriveFileService {
     public List<GoogleDriveFileDTO> findAllInFolder(String folderId) {
 
         List<GoogleDriveFileDTO> googleDriveFileDTOList = new ArrayList<>();
-        List<File> files = googleDriveManager.findAllInFolderById(folderId);
+        List<File> files = googleDriveManager.findAllFilesInFolderById(folderId);
 
         if (files == null) return googleDriveFileDTOList;
 

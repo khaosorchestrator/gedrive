@@ -37,7 +37,7 @@ public class GoogleDriveManager {
         }
     }
 
-    public List<File> findAllInFolderById(String folderId) {
+    public List<File> findAllFilesInFolderById(String folderId) {
         try {
             folderId = folderId == null ? "root" : folderId;
             String query = "'" + folderId + "' in parents";
@@ -75,11 +75,11 @@ public class GoogleDriveManager {
                 .setRole(permissionDetails.getRole());
     }
 
-    public Permission createPermissionForEmail(String id, PermissionDetails permissionDetails) {
+    public void createPermissionForEmail(String id, PermissionDetails permissionDetails) {
         Permission permission = setPermission(permissionDetails);
 
         try {
-            return googleDriveConfig.getDrive()
+            googleDriveConfig.getDrive()
                     .permissions()
                     .create(id, permission)
                     .execute();
