@@ -250,4 +250,30 @@ public class GoogleDriveManager {
             throw new RuntimeException(e);
         }
     }
+
+    public String createFolder(String folderName, String parentId) {
+
+        File fileMetadata = new File();
+
+        if (parentId != null) {
+            fileMetadata.setParents(List.of(parentId));
+        }
+
+        fileMetadata.setName(folderName);
+        fileMetadata.setMimeType("application/vnd.google-apps.folder");
+
+        try {
+
+            return googleDriveConfig
+                    .getDrive()
+                    .files()
+                    .create(fileMetadata)
+                    .setFields("id")
+                    .execute()
+                    .getId();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
