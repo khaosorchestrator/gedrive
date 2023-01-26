@@ -30,10 +30,10 @@ public class GoogleDriveFolderController {
         return googleDriveFolderService.getFolderId(folderName);
     }
 
-    @PostMapping("/create")
+    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestParam("folderName") String folderName) {
-        googleDriveFolderService.create(folderName);
+    public String create(@RequestParam("folderName") String folderName) {
+        return "{id: " + googleDriveFolderService.create(folderName) + "}";
     }
 
     @DeleteMapping("/delete/{id}")

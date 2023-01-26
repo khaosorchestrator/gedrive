@@ -39,9 +39,8 @@ public class GoogleDriveFolderService {
         return googleDriveFolderDTOS;
     }
 
-    public void create(String folderName) {
-        String folderId = googleDriveManager.getFolderId(folderName);
-        System.out.println(folderId);
+    public String create(String folderName) {
+        return googleDriveManager.getFolderId(folderName);
     }
 
     public String getFolderId(String folderName) {
