@@ -32,8 +32,8 @@ public class GoogleDriveFolderController {
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public String create(@RequestParam("folderName") String folderName) {
-        return "{id: " + googleDriveFolderService.create(folderName) + "}";
+    public String create(@RequestParam("folderName") String folderName, @RequestParam("parentId") String parentId) {
+        return "{id: " + googleDriveFolderService.create(folderName, parentId) + "}";
     }
 
     @DeleteMapping("/delete/{id}")
@@ -43,7 +43,7 @@ public class GoogleDriveFolderController {
     }
 
     @GetMapping(value = "/download/{id}", produces = "application/zip")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<byte[]> download(@PathVariable String id) {
         HttpHeaders headers = new HttpHeaders();
         String filename = String.format("%s.zip", id);
