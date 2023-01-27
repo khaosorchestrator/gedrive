@@ -83,12 +83,12 @@ public class GoogleDriveFileService {
         googleDriveManager.download(fileId, outputStream);
     }
 
-    public void copyToFolder(String fileId, String folderName) {
-        googleDriveManager.copy(fileId, folderName);
+    public void copyToFolder(String fileId, String folderId) {
+        googleDriveManager.copy(fileId, folderId);
     }
 
-    public void moveToFolder(String fileId, String folderName) {
-        googleDriveManager.move(fileId, folderName);
+    public void moveToFolder(String fileId, String folderId) {
+        googleDriveManager.move(fileId, folderId);
     }
 
     public void shareFile(String fileId, String gmail) {
