@@ -202,11 +202,10 @@ public class GoogleDriveManager {
         }
     }
 
-    public void copy(String fileId, String folderName) {
-        String folderId = getFolderId(folderName);
+    public void copy(String fileId, String folderId) {
 
         if (folderId == null) {
-            throw new RuntimeException("Folder " + folderName + " not found.");
+            throw new RuntimeException("Folder not found.");
         }
 
         try {
@@ -220,11 +219,10 @@ public class GoogleDriveManager {
         }
     }
 
-    public void move(String fileId, String folderName) {
-        String folderId = getFolderId(folderName);
+    public void move(String fileId, String folderId) {
 
         if (folderId == null) {
-            throw new RuntimeException("Folder " + folderName + " not found.");
+            throw new RuntimeException("Folder not found.");
         }
 
         try {
