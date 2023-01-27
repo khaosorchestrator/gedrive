@@ -53,16 +53,16 @@ public class GoogleDriveFileController {
         googleDriveFileService.download(id, response.getOutputStream());
     }
 
-    @GetMapping("/{fileId}/copy/{folderName}")
+    @GetMapping("/{fileId}/copy/{folderId}")
     @ResponseStatus(HttpStatus.OK)
-    public void copy(@PathVariable String fileId, @PathVariable String folderName) {
-        googleDriveFileService.copyToFolder(fileId, folderName);
+    public void copy(@PathVariable String fileId, @PathVariable String folderId) {
+        googleDriveFileService.copyToFolder(fileId, folderId);
     }
 
-    @GetMapping("/{fileId}/move/{folderName}")
+    @GetMapping("/{fileId}/move/{folderId}")
     @ResponseStatus(HttpStatus.OK)
-    public void move(@PathVariable String fileId, @PathVariable String folderName) {
-        googleDriveFileService.moveToFolder(fileId, folderName);
+    public void move(@PathVariable String fileId, @PathVariable String folderId) {
+        googleDriveFileService.moveToFolder(fileId, folderId);
     }
 
     @PostMapping("/{fileId}/permission/{gmail}")
