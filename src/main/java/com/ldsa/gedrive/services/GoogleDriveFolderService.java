@@ -41,7 +41,6 @@ public class GoogleDriveFolderService {
 
     public String create(String folderName, String parentId) {
         return googleDriveManager.createFolder(folderName, parentId);
-        //return googleDriveManager.getFolderId(folderName);
     }
 
     public String getFolderId(String folderName) {
