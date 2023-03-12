@@ -80,6 +80,10 @@ public class GoogleDriveFolderService {
         return result;
     }
 
+    public void moveFolderToAnother(String fromFolderId, String toFolderId) {
+        googleDriveManager.move(fromFolderId, toFolderId);
+    }
+
     public void shareFolder(String folderId, String gmail) {
         PermissionDetails permissionDetails = PermissionDetails
                 .builder()
