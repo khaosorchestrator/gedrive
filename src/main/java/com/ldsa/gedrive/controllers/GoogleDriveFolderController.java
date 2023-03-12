@@ -56,4 +56,10 @@ public class GoogleDriveFolderController {
     public void permission(@PathVariable String folderId, @PathVariable String gmail) {
         googleDriveFolderService.shareFolder(folderId, gmail);
     }
+
+    @GetMapping("/{fromFolderId}/move/{toFolderId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void move(@PathVariable String fromFolderId, @PathVariable String toFolderId) {
+        googleDriveFolderService.moveFolderToAnother(fromFolderId, toFolderId);
+    }
 }
