@@ -144,6 +144,14 @@ public class GoogleDriveManager {
         return parentId;
     }
 
+    public File findFolderById(String folderId) {
+        try {
+            return googleDriveConfig.getDrive().files().get(folderId).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private String findOrCreateFolder(String parentId, String folderName) {
         String folderId = findFolderById(parentId, folderName);
 
