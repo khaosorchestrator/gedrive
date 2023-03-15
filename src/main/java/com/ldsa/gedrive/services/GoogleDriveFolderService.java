@@ -84,6 +84,20 @@ public class GoogleDriveFolderService {
         googleDriveManager.move(fromFolderId, toFolderId);
     }
 
+    public void copyFolderToAnother(String fromId, String toId) {
+        File fromFolder = googleDriveManager.findFolderById(fromId);
+
+        File newFolder = new File();
+        newFolder.setName(fromFolder.getName());
+        newFolder.setParents(List.of(toId));
+        newFolder.setMimeType("application/vnd.google-apps.folder");
+
+        List<File> folders = googleDriveManager.findAllFoldersInFolderById(fromId);
+        List<File> files = googleDriveManager.findAllFilesInFolderById(fromId);
+        files.forEach(file -> googleDriveManager.copy(file.getId(), newFolder.getId()));
+        folders.forEach(folder -> copyFolderToAnother(folder.getId(), newFolder.getId()));
+    }
+
     public void shareFolder(String folderId, String gmail) {
         PermissionDetails permissionDetails = PermissionDetails
                 .builder()
