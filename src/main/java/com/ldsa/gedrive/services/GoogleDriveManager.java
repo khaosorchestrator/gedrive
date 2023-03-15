@@ -55,6 +55,24 @@ public class GoogleDriveManager {
         }
     }
 
+    public List<File> findAllFoldersInFolderById(String folderId) {
+        try {
+
+            String query = String.format("'%s' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false", folderId);
+
+            return googleDriveConfig.getDrive()
+                    .files()
+                    .list()
+                    .setQ(query)
+                    .setSpaces("drive")
+                    .setFields("nextPageToken, files(id, name)")
+                    .execute().getFiles();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void download(String fileId, OutputStream outputStream) {
         try {
             googleDriveConfig.getDrive().files().get(fileId).executeMediaAndDownloadTo(outputStream);
@@ -156,7 +174,7 @@ public class GoogleDriveManager {
         do {
             String query = " mimeType = 'application/vnd.google-apps.folder' ";
 
-            query = parentId == null ? query + " and 'root' in parents"  :
+            query = parentId == null ? query + " and 'root' in parents" :
                     query + " and '" + parentId + "' in parents";
 
             try {
