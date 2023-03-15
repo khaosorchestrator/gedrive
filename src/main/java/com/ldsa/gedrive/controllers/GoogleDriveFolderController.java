@@ -62,4 +62,10 @@ public class GoogleDriveFolderController {
     public void move(@PathVariable String fromFolderId, @PathVariable String toFolderId) {
         googleDriveFolderService.moveFolderToAnother(fromFolderId, toFolderId);
     }
+
+    @GetMapping("/{fromFolderId}/copy/{toFolderId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void copy(@PathVariable String fromFolderId, @PathVariable String toFolderId) {
+        googleDriveFolderService.copyFolderToAnother(fromFolderId, toFolderId);
+    }
 }
